@@ -1,4 +1,4 @@
-﻿using UsersAPI.Domain.DomainModel;
+﻿using UsersAPI.Application.Model;
 using UsersAPI.Domain.Entities;
 using UsersAPI.Domain.Enum;
 using UsersAPI.Domain.Interfaces.Repository;

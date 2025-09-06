@@ -1,4 +1,4 @@
-﻿using UsersAPI.Domain.DomainModel;
+﻿using UsersAPI.Application.Model;
 using UsersAPI.Domain.Entities;
 
 namespace UsersAPI.Domain.Interfaces.Service;

@@ -1,6 +1,6 @@
 ﻿using UsersAPI.Domain.Enum;
 
-namespace UsersAPI.Domain.DomainModel;
+namespace UsersAPI.Application.Model;
 
 public class UserModel
 {

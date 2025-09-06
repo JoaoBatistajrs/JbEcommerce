@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using UsersAPI.Domain.DomainModel;
+using UsersAPI.Application.Model;
 using UsersAPI.Domain.Interfaces.Service;
 
 namespace UsersAPI.Application.Endpoint;
