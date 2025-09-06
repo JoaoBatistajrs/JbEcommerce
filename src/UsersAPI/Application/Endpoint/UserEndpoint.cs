@@ -35,9 +35,6 @@ public static class UserEndpoint
             [FromBody] AdminCreateUserModel userModel,
             ClaimsPrincipal userClaims) =>
         {
-            if (!userClaims.IsInRole("Adm"))
-                return Results.Forbid();
-
             var user = await userService.CreateAdminUser(userModel);
             return Results.Created($"/user/{user.Id}", user);
         });

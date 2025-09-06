@@ -4,6 +4,7 @@ using UsersAPI.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfraStrucuture(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 
