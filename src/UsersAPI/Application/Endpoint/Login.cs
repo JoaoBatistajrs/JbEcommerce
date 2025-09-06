@@ -7,7 +7,7 @@ public static class Login
 {
     public static void MapLoginEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/login", async (UserLoginDto login, IUserService userService,
+        app.MapPost("/auth", async (UserLoginDto login, IUserService userService,
             [FromServices] IPasswordService passwordService, [FromServices] IJwtService jwtService) =>
         {
             var user = await userService.GetUserByEmail(login.Email);

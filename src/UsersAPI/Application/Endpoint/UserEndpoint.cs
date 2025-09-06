@@ -12,15 +12,6 @@ public static class UserEndpoint
     {
         var userGroup = app.MapGroup("/user")
                            .WithTags("Users");
-                           //.RequireAuthorization();
-
-        //userGroup.MapPost("/create", [Authorize(Roles = "Adm,User")] async (
-        //    [FromServices] IUserService userService,
-        //    UserModel userModel) =>
-        //{
-        //    var user = await userService.CreateUser(userModel);
-        //    return Results.Created($"/user/{user.Id}", user);
-        //});
 
         userGroup.MapPost("/create", async (
         [FromServices] IUserService userService,
