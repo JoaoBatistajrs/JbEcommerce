@@ -6,8 +6,8 @@ public class Order
 {
     private readonly List<OrderItem> _items = new();
 
-    public Guid Id { get; private set; }
-    public Guid CustomerId { get; private set; }
+    public int Id { get; private set; }
+    public int CustomerId { get; private set; }
     public IReadOnlyCollection<OrderItem> Items => _items.AsReadOnly();
     public decimal Total => _items.Sum(i => i.Total);
     public OrderStatus Status { get; private set; }
@@ -16,9 +16,8 @@ public class Order
 
     protected Order() { } // EF Core
 
-    public Order(Guid customerId)
+    public Order(int customerId)
     {
-        Id = Guid.NewGuid();
         CustomerId = customerId;
         Status = OrderStatus.Pending;
         CreatedAt = DateTime.UtcNow;
