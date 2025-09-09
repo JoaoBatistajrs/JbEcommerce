@@ -1,10 +1,10 @@
-﻿using UsersAPI.Application.Model;
-using UsersAPI.Domain.Entities;
-using UsersAPI.Domain.Enum;
-using UsersAPI.Domain.Interfaces.Repository;
-using UsersAPI.Domain.Interfaces.Service;
+﻿using UsersApi.Application.Model;
+using UsersApi.Domain.Entities;
+using UsersApi.Domain.Enum;
+using UsersApi.Domain.Interfaces.Repository;
+using UsersApi.Domain.Interfaces.Service;
 
-namespace UsersAPI.Application.Services;
+namespace UsersApi.Application.Services;
 
 public class UserService : IUserService
 {

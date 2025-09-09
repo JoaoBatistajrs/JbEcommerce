@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UsersAPI.Domain.Interfaces.Service;
+using UsersApi.Domain.Interfaces.Service;
 
-namespace UsersAPI.Application.Endpoint;
+namespace UsersApi.Application.Endpoint;
 
 public static class Login
 {

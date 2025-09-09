@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using UsersAPI.Domain.Entities;
+using UsersApi.Domain.Entities;
 
-namespace UsersAPI.Domain.Interfaces.Repository;
+namespace UsersApi.Domain.Interfaces.Repository;
 
 public interface IUserRepository
 {

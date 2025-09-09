@@ -1,17 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UsersAPI.Application.Services;
-using UsersAPI.Domain.Interfaces.Repository;
-using UsersAPI.Domain.Interfaces.Service;
-using UsersAPI.Infrastructure.DataBase;
-using UsersAPI.Infrastructure.Repository;
+using UsersApi.Application.Services;
+using UsersApi.Domain.Interfaces.Repository;
+using UsersApi.Domain.Interfaces.Service;
+using UsersApi.Infrastructure.DataBase;
+using UsersApi.Infrastructure.Repository;
 
-namespace UsersAPI.IoC;
+namespace UsersApi.IoC;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfraStrucuture(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<UserContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<UserContext>(options =>
+                        options.UseNpgsql(
+                            configuration.GetConnectionString("DefaultConnection"),
+                            npgsqlOptions => npgsqlOptions.EnableRetryOnFailure(
+                                maxRetryCount: 5,
+                                maxRetryDelay: TimeSpan.FromSeconds(10),
+                                errorCodesToAdd: null)
+                            )
+                        );
 
         services.AddScoped<IUserRepository, UserRepository>();
 

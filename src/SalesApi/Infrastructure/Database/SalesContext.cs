@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SalesApi.Domain.Entities;
+using SalesApi.Infrastructure.Configurations;
 
 namespace SalesApi.Infrastructure.Database;
 
@@ -15,7 +16,7 @@ public class SalesContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SalesContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 

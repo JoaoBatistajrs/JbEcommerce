@@ -1,4 +1,4 @@
-﻿namespace UsersAPI.Domain.Enum;
+﻿namespace UsersApi.Domain.Enum;
 
 public enum UserRole
 {

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using UsersAPI.Application.Endpoint;
-using UsersAPI.Infrastructure.DataBase;
-using UsersAPI.IoC;
+using UsersApi.Application.Endpoint;
+using UsersApi.Infrastructure.DataBase;
+using UsersApi.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +60,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Configure JWT authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -84,17 +83,8 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    try
-    {
-        var db = scope.ServiceProvider.GetRequiredService<UserContext>();
-        db.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Error aplying migrations");
-        throw;
-    }
+    var db = scope.ServiceProvider.GetRequiredService<UserContext>();
+    db.Database.Migrate();
 }
 
 app.UseAuthentication();

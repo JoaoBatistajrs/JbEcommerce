@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using UsersAPI.Domain.Entities;
-using UsersAPI.Domain.Interfaces.Repository;
-using UsersAPI.Infrastructure.DataBase;
+using UsersApi.Domain.Entities;
+using UsersApi.Domain.Interfaces.Repository;
+using UsersApi.Infrastructure.DataBase;
 
-namespace UsersAPI.Infrastructure.Repository;
+namespace UsersApi.Infrastructure.Repository;
 
 public class UserRepository : IUserRepository
 {

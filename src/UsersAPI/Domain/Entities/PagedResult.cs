@@ -1,4 +1,4 @@
-﻿namespace UsersAPI.Domain.Entities;
+﻿namespace UsersApi.Domain.Entities;
 
 public class PagedResult<T>
 {

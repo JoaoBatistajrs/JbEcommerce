@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using UsersAPI.Domain.Entities;
-using UsersAPI.Domain.Interfaces.Service;
+using UsersApi.Domain.Entities;
+using UsersApi.Domain.Interfaces.Service;
 
-namespace UsersAPI.Application.Services;
+namespace UsersApi.Application.Services;
 
 public class PasswordService : IPasswordService
 {

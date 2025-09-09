@@ -16,65 +16,33 @@ services:
     networks:
       - app-network
 
-  # Users API
-  usersapi:
-    build:
-      context: ./src/UsersAPI
-      dockerfile: Dockerfile
-    ports:
-      - "5012:5012"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=usersdb;Port=5432;Database=usersdb;Username=postgres;Password=postgres
-    depends_on:
-      - usersdb
-    networks:
-      - app-network
-
   # Sales API
   salesapi:
     build:
-      context: ./src/SalesAPI
+      context: ./src/SalesApi
       dockerfile: Dockerfile
     ports:
       - "5013:5013"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=salesdb;Port=5432;Database=salesdb;Username=postgres;Password=postgres
+      - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=${SALES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
       - RabbitMQ__Host=rabbitmq
       - RabbitMQ__Username=guest
       - RabbitMQ__Password=guest
+    networks:
+      - app-network
     depends_on:
-      - salesdb
       - rabbitmq
-    networks:
-      - app-network
 
-  # Banco da UsersAPI
-  usersdb:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: usersdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+  # Users API
+  usersapi:
+    build:
+      context: ./src/UsersApi
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
-    volumes:
-      - users-data:/var/lib/postgresql/data
-    networks:
-      - app-network
-
-  # Banco da SalesAPI
-  salesdb:
-    image: postgres:16
+      - "5012:5012"
     environment:
-      POSTGRES_DB: salesdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5433:5432"
-    volumes:
-      - sales-data:/var/lib/postgresql/data
+      - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=${USERS_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     networks:
       - app-network
 
@@ -82,8 +50,8 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"   # porta de comunicação
-      - "15672:15672" # painel web
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -92,7 +60,3 @@ services:
 
 networks:
   app-network:
-
-volumes:
-  users-data:
-  sales-data:

@@ -11,7 +11,15 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfraStrucuture(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<SalesContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<SalesContext>(options =>
+                        options.UseNpgsql(
+                            configuration.GetConnectionString("DefaultConnection"),
+                            npgsqlOptions => npgsqlOptions.EnableRetryOnFailure(
+                                maxRetryCount: 5,   
+                                maxRetryDelay: TimeSpan.FromSeconds(10),
+                                errorCodesToAdd: null)
+                            )
+                        );
 
         services.AddScoped<IOrderRepository, OrderRepository>();
 

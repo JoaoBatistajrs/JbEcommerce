@@ -1,6 +1,6 @@
-﻿using UsersAPI.Domain.Entities;
+﻿using UsersApi.Domain.Entities;
 
-namespace UsersAPI.Domain.Interfaces.Service;
+namespace UsersApi.Domain.Interfaces.Service;
 
 public interface IJwtService
 {

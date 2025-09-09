@@ -16,8 +16,8 @@ Este projeto implementa uma arquitetura baseada em **microservices** utilizando:
 
   API Gateway com YARP para rotear requisições para as APIs.  
 
-- **UsersAPI** (`http://localhost:5012`)  
-  O UsersAPI gerencia usuários e autenticação (porta 5012).
+- **UsersApi** (`http://localhost:5012`)  
+  O UsersApi gerencia usuários e autenticação (porta 5012).
 
   Gerenciamento de usuários, autenticação e geração de JWT.  
 

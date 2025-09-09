@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using UsersAPI.Application.Model;
-using UsersAPI.Domain.Interfaces.Service;
+using UsersApi.Application.Model;
+using UsersApi.Domain.Interfaces.Service;
 
-namespace UsersAPI.Application.Endpoint;
+namespace UsersApi.Application.Endpoint;
 
 public static class UserEndpoint
 {

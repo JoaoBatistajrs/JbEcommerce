@@ -18,4 +18,4 @@ COPY --from=build /app/out .
 ENV ASPNETCORE_URLS=http://+:5013
 EXPOSE 5013
 
-ENTRYPOINT ["dotnet", "SalesAPI.dll"]
+ENTRYPOINT ["dotnet", "SalesApi.dll"]
