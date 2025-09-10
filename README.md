@@ -1,58 +1,44 @@
-# Sales & Users API com Gateway e RabbitMQ
+# Sales & Users API with Gateway and RabbitMQ
 
-Este projeto implementa uma arquitetura baseada em **microservices** utilizando:
+A microservices-based architecture built with:
 
 - **.NET 9** (Minimal APIs)  
-- **YARP (Gateway)**  
-- **RabbitMQ** (mensageria)  
-- **PostgreSQL** (bancos independentes para cada serviço)  
-- **Docker Compose** (orquestração dos serviços)
+- **YARP** (API Gateway)  
+- **RabbitMQ** (messaging)  
+- **PostgreSQL** (independent databases per service)  
+- **Docker Compose** (orchestration)  
 
 ---
-## 🚀 Serviços
 
-- **Gateway** (`http://localhost:5000`)  
-  O Gateway é a única porta de entrada (porta 5000).
+## 🚀 Services
 
-  API Gateway com YARP para rotear requisições para as APIs.  
+- **Gateway** → [`http://localhost:5000`](http://localhost:5000)  
+  Single entry point. Routes requests to backend services via YARP.  
 
-- **UsersApi** (`http://localhost:5012`)  
-  O UsersApi gerencia usuários e autenticação (porta 5012).
+- **Users API** → [`http://localhost:5012`](http://localhost:5012)  
+  User management, authentication, and JWT generation.  
 
-  Gerenciamento de usuários, autenticação e geração de JWT.  
-
-- **SalesAPI** (`http://localhost:5013`)  
-  O SalesAPI gerencia vendas e publica eventos no RabbitMQ (porta 5013).
-
-  Gerenciamento de vendas, publica eventos no RabbitMQ.  
-
-- **Postgres**  
-  Cada API tem seu próprio banco no Postgres.
-
-  - `usersdb` (porta 5432 interna, exposta em 5432 no host)  
-  - `salesdb` (porta 5432 interna, exposta em 5433 no host)  
+- **Sales API** → [`http://localhost:5013`](http://localhost:5013)  
+  Sales management and event publishing to RabbitMQ.  
 
 - **RabbitMQ**  
+  - Broker: `amqp://localhost:5672`  
+  - Dashboard: [`http://localhost:15672`](http://localhost:15672)  
+  - Default credentials: `guest` / `guest`  
 
-  RabbitMQ gerencia a comunicação assíncrona entre serviços.
-
-  - Broker de mensagens (`amqp://localhost:5672`)  
-  - Painel de administração (`http://localhost:15672`)  
-  - Usuário padrão: `guest` / Senha: `guest`  
-  
 ---
 
-## 🛠️ Pré-requisitos
+## 🛠️ Requirements
 
 - [Docker](https://docs.docker.com/get-docker/)  
 - [Docker Compose](https://docs.docker.com/compose/)  
-- .NET 9 SDK (se quiser rodar fora do container)
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download) *(optional, to run outside containers)*  
 
 ---
 
-## ▶️ Como rodar
+## ▶️ Getting Started
 
-Na raiz do repositório:
+Clone the repository and run:  
 
 ```bash
 docker compose build
