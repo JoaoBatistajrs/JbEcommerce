@@ -27,14 +27,36 @@ public class RabbitMqEventPublisher : IEventPublisher, IAsyncDisposable
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
+        var exchange = "order.exchange";
+        var queue = "order.exchange.queue";
+
         _connection = await _factory.CreateConnectionAsync(cancellationToken);
         _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
         await _channel.ExchangeDeclareAsync(
-            exchange: "order.exchange",
+            exchange: exchange,
             type: ExchangeType.Fanout,
             durable: true,
             cancellationToken: cancellationToken
+        );
+
+        var queueArgs = new Dictionary<string, object>
+        {
+            { "x-message-ttl", 3600000 }
+        };
+
+        await _channel.QueueDeclareAsync(
+            queue: queue,
+            durable: true,
+            exclusive: false,
+            autoDelete: false,
+            arguments: queueArgs
+        );
+
+        await _channel.QueueBindAsync(
+            queue: queue,
+            exchange: exchange,
+            routingKey: string.Empty
         );
     }
 
@@ -49,7 +71,7 @@ public class RabbitMqEventPublisher : IEventPublisher, IAsyncDisposable
 
         var props = new BasicProperties();
         props.ContentType = "application/json";
-        props.DeliveryMode = (DeliveryModes)2;
+        props.DeliveryMode = DeliveryModes.Persistent;
 
         await _channel.BasicPublishAsync(
             exchange: "order.exchange",

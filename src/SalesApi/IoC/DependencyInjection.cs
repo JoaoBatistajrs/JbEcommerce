@@ -29,7 +29,12 @@ public static class DependencyInjection
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IOrderService, OrderService>();
-        services.AddSingleton<IEventPublisher, RabbitMqEventPublisher>();
+
+        services.AddSingleton<RabbitMqEventPublisher>();
+        services.AddSingleton<IEventPublisher>(sp => sp.GetRequiredService<RabbitMqEventPublisher>());
+
+
+        services.AddHostedService<RabbitMqHostedService>();
 
         return services;
     }
