@@ -26,9 +26,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=${SALES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-      - RabbitMQ__Host=rabbitmq
-      - RabbitMQ__Username=guest
-      - RabbitMQ__Password=guest
+      - RabbitMQ__Host=${RBMQHOST}
+      - RabbitMQ__Username=${RBMQUSER}
+      - RabbitMQ__Password=${RBMQPASSWORD}
     networks:
       - app-network
     depends_on:
@@ -45,6 +45,24 @@ services:
       - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=${USERS_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     networks:
       - app-network
+
+    # Users API
+  inventoryapi:
+    build:
+      context: ./src/InventoryApi
+      dockerfile: Dockerfile
+    ports:
+      - "5014:5014"
+    environment:
+       ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=host.docker.internal;Port=5432;Database=${INVENTORY_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RabbitMQ__Host=${RBMQHOST}
+      - RabbitMQ__Username=${RBMQUSER}
+      - RabbitMQ__Password=${RBMQPASSWORD}
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
 
   # RabbitMQ
   rabbitmq:
