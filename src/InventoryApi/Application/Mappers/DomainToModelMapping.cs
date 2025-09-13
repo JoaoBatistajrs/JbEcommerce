@@ -8,6 +8,7 @@ public class DomainToModelMapping : Profile
 {
     public DomainToModelMapping()
     {
-        CreateMap<Product, ProductModelApi>().ReverseMap();
+        CreateMap<Product, ProductModelRequest>().ReverseMap();
+        CreateMap<Product, ProductModelResponse>().ReverseMap();
     }
 }

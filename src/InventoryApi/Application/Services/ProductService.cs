@@ -17,14 +17,14 @@ namespace InventoryApi.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ProductModelApi> CreateProductAsync(ProductModelApi request)
+        public async Task<ProductModelResponse> CreateProductAsync(ProductModelRequest request)
         {
             var product = _mapper.Map<Product>(request);
 
             await _productRepository.AddAsync(product);
             await _productRepository.SaveChangesAsync();
 
-            return _mapper.Map<ProductModelApi>(product);
+            return _mapper.Map<ProductModelResponse>(product);
         } 
     }
 }

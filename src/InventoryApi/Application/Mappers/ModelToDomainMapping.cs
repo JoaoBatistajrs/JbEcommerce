@@ -8,6 +8,7 @@ public class ModelToDomainMapping : Profile
 {
     public ModelToDomainMapping()
     {
-        CreateMap<ProductModelApi, Product>();
+        CreateMap<ProductModelRequest, Product>();
+        CreateMap<ProductModelResponse, Product>();
     }
 }

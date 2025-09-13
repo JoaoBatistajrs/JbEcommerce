@@ -11,7 +11,7 @@ public static class ProductEndpoints
             .WithTags("Products");
         //.RequireAuthorization();
 
-        group.MapPost("/", async (ProductModelApi productCreateRequest, IProductService service, CancellationToken ct) =>
+        group.MapPost("/", async (ProductModelRequest productCreateRequest, IProductService service, CancellationToken ct) =>
         {
             var product = await service.CreateProductAsync(productCreateRequest);
             return Results.Created($"/products/{product.Id}", product);
