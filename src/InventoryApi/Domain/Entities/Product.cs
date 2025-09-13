@@ -8,33 +8,27 @@ public class Product
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
+    public int CurrentStock { get; private set; } = 0;
+
+
     public List<StockMovement> Movements { get; set; } = new();
 
-    public int Stock => Movements.Sum(m => m.Direction == MovementDirection.Entry ? m.Quantity : -m.Quantity);
-
-    public void RegisterEntry(int quantity, string reason)
+    public void ApplyMovement(int quantity, MovementDirection direction)
     {
-        if (quantity <= 0) throw new ArgumentException("Quantity must be positive.");
-        Movements.Add(new StockMovement
+        if (direction == MovementDirection.Entry)
+            CurrentStock += quantity;
+        else
         {
-            ProductId = Id,
-            Quantity = quantity,
-            Direction = MovementDirection.Entry,
-            Reason = reason
-        });
-    }
-
-    public void RegisterExit(int quantity, string reason)
-    {
-        if (quantity <= 0) throw new ArgumentException("Quantity must be positive.");
-        if (Stock < quantity) throw new InvalidOperationException("No stock available");
+            if (CurrentStock < quantity)
+                throw new InvalidOperationException("No stock available");
+            CurrentStock -= quantity;
+        }
 
         Movements.Add(new StockMovement
         {
-            ProductId = Id,
             Quantity = quantity,
-            Direction = MovementDirection.Exit,
-            Reason = reason
+            Direction = direction,
+            Date = DateTime.UtcNow
         });
     }
 }

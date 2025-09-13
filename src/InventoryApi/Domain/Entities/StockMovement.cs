@@ -9,6 +9,5 @@ public class StockMovement
     public Product? Product { get; set; }
     public int Quantity { get; set; }
     public MovementDirection Direction { get; set; }
-    public string Reason { get; set; } = string.Empty;
     public DateTime Date { get; set; } = DateTime.UtcNow;
 }

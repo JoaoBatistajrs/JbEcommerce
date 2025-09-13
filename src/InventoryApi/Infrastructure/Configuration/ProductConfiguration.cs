@@ -22,7 +22,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Price)
                .HasColumnType("decimal(18,2)");
 
-        // Relacionamento 1:N (Product -> Movements)
+        builder.Property(p => p.CurrentStock)
+                .IsRequired();
+
         builder.HasMany(p => p.Movements)
                .WithOne(m => m.Product)
                .HasForeignKey(m => m.ProductId)

@@ -1,4 +1,5 @@
 ﻿using InventoryApi.Application.Interfaces;
+using InventoryApi.Application.Mappers;
 using InventoryApi.Application.Services;
 using InventoryApi.Domain.Intarfaces.Repository;
 using InventoryApi.Infrastructure.Database;
@@ -28,7 +29,8 @@ public static class DependencyInjection
 
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IInventoryService, InventoryService>();
+        services.AddScoped<IProductService, ProductService>();
+        services.AddAutoMapper(cfg => { }, typeof(DomainToModelMapping));
 
         return services;
     }

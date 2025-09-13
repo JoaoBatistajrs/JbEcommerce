@@ -6,7 +6,6 @@ namespace InventoryApi.Infrastructure.Database;
 
 public class InventoryContext : DbContext
 {
-
     public InventoryContext(DbContextOptions<InventoryContext> options) : base(options)
     {
     }
@@ -19,5 +18,4 @@ public class InventoryContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
         base.OnModelCreating(modelBuilder);
     }
-
 }
