@@ -25,6 +25,19 @@ namespace InventoryApi.Application.Services
             await _productRepository.SaveChangesAsync();
 
             return _mapper.Map<ProductModelResponse>(product);
-        } 
+        }
+
+        public async Task<List<ProductModelResponse>> GetAll()
+        {
+            var products = await _productRepository.GetAllAsync();
+            var response = _mapper.Map<List<ProductModelResponse>>(products);
+            return response;
+        }
+
+        public Task<ProductModelResponse> GetById(int id)
+        {
+            var product = _productRepository.GetByIdAsync(id);
+            return product.ContinueWith(t => _mapper.Map<ProductModelResponse>(t.Result));
+        }
     }
 }

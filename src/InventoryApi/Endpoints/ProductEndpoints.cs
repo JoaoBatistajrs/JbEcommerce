@@ -16,5 +16,17 @@ public static class ProductEndpoints
             var product = await service.CreateProductAsync(productCreateRequest);
             return Results.Created($"/products/{product.Id}", product);
         });
+
+        group.MapGet("/", async (IProductService service, CancellationToken ct) =>
+        {
+            var products = await service.GetAll();
+            return Results.Ok(products);
+        });
+
+        group.MapGet("/{id:int}", async (int id, IProductService service, CancellationToken ct) =>
+        {
+            var product = await service.GetById(id);
+            return product is not null ? Results.Ok(product) : Results.NotFound();
+        });
     }
 }

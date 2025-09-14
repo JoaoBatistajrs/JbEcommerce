@@ -19,6 +19,17 @@ namespace InventoryApi.Infrastructure.Repositories
             await _context.Products.AddAsync(product);
         }
 
+        public async Task<List<Product>> GetAllAsync()
+        {
+            return await _context.Products.ToListAsync();
+        }
+
+        public async Task<Product?> GetByIdAsync(int id)
+        {
+           return await _context.Products
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<List<Product>> GetByIdsAsync(List<int> ids)
         {
             return await _context.Products
@@ -42,5 +53,7 @@ namespace InventoryApi.Infrastructure.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+
     }
 }
