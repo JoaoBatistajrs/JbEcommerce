@@ -4,40 +4,65 @@ using InventoryApi.Application.Interfaces;
 using InventoryApi.Domain.Entities;
 using InventoryApi.Domain.Intarfaces.Repository;
 
-namespace InventoryApi.Application.Services
+namespace InventoryApi.Application.Services;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
+
+    public ProductService(IProductRepository productRepository, IMapper mapper)
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IMapper _mapper;
+        _productRepository = productRepository;
+        _mapper = mapper;
+    }
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+    public async Task<ProductModelResponse> CreateProductAsync(ProductModelRequest request)
+    {
+        var product = _mapper.Map<Product>(request);
+
+        await _productRepository.AddAsync(product);
+        await _productRepository.SaveChangesAsync();
+
+        return _mapper.Map<ProductModelResponse>(product);
+    }
+
+    public async Task<List<ProductModelResponse>> GetAll()
+    {
+        var products = await _productRepository.GetAllAsync();
+        var response = _mapper.Map<List<ProductModelResponse>>(products);
+        return response;
+    }
+
+    public Task<ProductModelResponse> GetById(int id)
+    {
+        var product = _productRepository.GetByIdAsync(id);
+        return product.ContinueWith(t => _mapper.Map<ProductModelResponse>(t.Result));
+    }
+
+    public async Task<InventoryValidationResult> ValidateSaleAsync(int saleId, List<SaleItemModel> items)
+    {
+        var result = new InventoryValidationResult();
+
+        foreach (var item in items)
         {
-            _productRepository = productRepository;
-            _mapper = mapper;
+            var product = await _productRepository.GetByIdAsync(item.ProductId);
+
+            if (product == null)
+            {
+                result.Errors.Add($"Produto {item.ProductId} não encontrado.");
+                continue;
+            }
+
+            if (product.CurrentStock < item.Quantity)
+            {
+                result.Errors.Add(
+                    $"Product {product.Name} does not have sufficient balance." +
+                    $"Ordered: {item.Quantity}, Available: {product.CurrentStock}");
+            }
         }
 
-        public async Task<ProductModelResponse> CreateProductAsync(ProductModelRequest request)
-        {
-            var product = _mapper.Map<Product>(request);
-
-            await _productRepository.AddAsync(product);
-            await _productRepository.SaveChangesAsync();
-
-            return _mapper.Map<ProductModelResponse>(product);
-        }
-
-        public async Task<List<ProductModelResponse>> GetAll()
-        {
-            var products = await _productRepository.GetAllAsync();
-            var response = _mapper.Map<List<ProductModelResponse>>(products);
-            return response;
-        }
-
-        public Task<ProductModelResponse> GetById(int id)
-        {
-            var product = _productRepository.GetByIdAsync(id);
-            return product.ContinueWith(t => _mapper.Map<ProductModelResponse>(t.Result));
-        }
+        result.IsValid = !result.Errors.Any();
+        return result;
     }
 }
