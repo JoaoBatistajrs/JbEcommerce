@@ -12,7 +12,7 @@ public class OrderService : IOrderService
     private readonly IOrderRepository _orderRepository;
     private readonly IEventPublisher _eventPublisher;
 
-    public OrderService(IOrderRepository orderRepository, IEventPublisher eventPublisher    )
+    public OrderService(IOrderRepository orderRepository, IEventPublisher eventPublisher)
     {
         _orderRepository = orderRepository;
         _eventPublisher = eventPublisher;
@@ -29,17 +29,21 @@ public class OrderService : IOrderService
 
         await _orderRepository.AddAsync(order, cancellationToken);
 
-        await _eventPublisher.PublishAsync(new OrderCreatedEvent
-        {
-            OrderId = order.Id,
-            CustomerId = order.CustomerId,
-            Items = order.Items.Select(i => new OrderItemEvent(i.ProductId, i.Quantity)).ToList()
-        }, cancellationToken);
+        await _eventPublisher.PublishAsync(
+            new OrderCreatedEvent
+            {
+                OrderId = order.Id,
+                CustomerId = order.CustomerId,
+                Items = order.Items.Select(i => new OrderItemEvent(i.ProductId, i.Quantity)).ToList()
+            },
+            exchange: "order.exchange",
+            cancellationToken: cancellationToken
+        );
 
         return new OrderDto(
             order.Id,
             order.CustomerId,
-            order.Items.Select(i => new OrderItemDto(i.ProductId, i.Quantity, i.Price)).ToList(),
+            order.Items.Select(item => new OrderItemDto(item.ProductId, item.Quantity, item.Price)).ToList(),
             order.Total,
             order.Status.ToString(),
             order.CreatedAt,

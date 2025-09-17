@@ -14,7 +14,7 @@ public class Order
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    protected Order() { } // EF Core
+    protected Order() { }
 
     public Order(int customerId)
     {
