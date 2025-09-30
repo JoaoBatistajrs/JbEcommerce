@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SalesApi.Application.Interfaces;
 using SalesApi.Application.Services;
+using SalesApi.Infrastructure.Configurations;
 using SalesApi.Infrastructure.Database;
 using SalesApi.Infrastructure.Messaging;
 using SalesApi.Infrastructure.Repositories;
@@ -33,8 +34,8 @@ public static class DependencyInjection
         services.AddSingleton<RabbitMqEventPublisher>();
         services.AddSingleton<IEventPublisher>(sp => sp.GetRequiredService<RabbitMqEventPublisher>());
 
-
         services.AddHostedService<RabbitMqHostedService>();
+        services.Configure<RabbitMqOptions>(configuration.GetSection("RabbitMQ"));
 
         return services;
     }

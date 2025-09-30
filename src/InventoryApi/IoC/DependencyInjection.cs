@@ -2,6 +2,7 @@
 using InventoryApi.Application.Mappers;
 using InventoryApi.Application.Services;
 using InventoryApi.Domain.Intarfaces.Repository;
+using InventoryApi.Infrastructure.Configuration;
 using InventoryApi.Infrastructure.Database;
 using InventoryApi.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IProductService, ProductService>();
         services.AddAutoMapper(cfg => { }, typeof(DomainToModelMapping));
+        services.Configure<RabbitMqOptions>(configuration.GetSection("RabbitMQ"));
 
         return services;
     }

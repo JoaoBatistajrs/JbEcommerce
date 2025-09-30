@@ -72,7 +72,7 @@ public class InventoryCheckedConsumer : BackgroundService
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro no consumo de InventoryChecked: {ex.Message}");
+                Console.WriteLine($"Errors consuming InventoryChecked: {ex.Message}");
             }
         };
 

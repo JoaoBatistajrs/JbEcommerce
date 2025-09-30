@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace SalesApi.Infrastructure.Messaging;
+﻿namespace SalesApi.Infrastructure.Messaging;
 
 public class RabbitMqHostedService : BackgroundService
 {

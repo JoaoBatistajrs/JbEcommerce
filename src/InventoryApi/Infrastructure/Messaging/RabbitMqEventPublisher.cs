@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
-namespace SalesApi.Infrastructure.Messaging;
+namespace InventoryApi.Infrastructure.Messaging;
 
 public class RabbitMqEventPublisher : IEventPublisher, IAsyncDisposable
 {

@@ -1,5 +1,6 @@
-﻿using InventoryApi.Application.Interfaces;
-using InventoryApi.Application.ApiModels;
+﻿using InventoryApi.Application.ApiModels;
+using InventoryApi.Application.Interfaces;
+using InventoryApi.Infrastructure.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -14,24 +15,23 @@ public class OrderCreatedConsumer : BackgroundService
     private IChannel _channel;
     private readonly IProductService _productService;
     private readonly IEventPublisher _publisher;
+    private readonly RabbitMqOptions _options;
 
     public OrderCreatedConsumer(
         IConfiguration configuration,
         IProductService productService,
-        IEventPublisher publisher)
+        IEventPublisher publisher,
+        RabbitMqOptions options)
     {
         _productService = productService;
         _publisher = publisher;
-
-        var host = configuration["RabbitMQ:Host"];
-        var user = configuration["RabbitMQ:Username"];
-        var pass = configuration["RabbitMQ:Password"];
+        _options = options;
 
         _factory = new ConnectionFactory
         {
-            HostName = host,
-            UserName = user,
-            Password = pass
+            HostName = _options.Host,
+            UserName = _options.Username,
+            Password = _options.Password
         };
     }
 
